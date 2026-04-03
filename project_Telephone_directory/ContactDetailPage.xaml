@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:project_Telephone_directory.Controls"
+             x:Class="project_Telephone_directory.ContactDetailPage"
+             Title="Контакт">
+    <Grid>
+        <controls:ShaderBackgroundView x:Name="ShaderBg" />
+        <ScrollView Padding="16">
+            <VerticalStackLayout Spacing="14">
+                <Label Text="{Binding Contact.Name}"
+                       FontSize="26"
+                       FontAttributes="Bold"
+                       TextColor="White" />
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                    <Border Grid.Column="0" BackgroundColor="#55000000" StrokeThickness="0" Padding="4">
+                        <WebView x:Name="Phone3d" HeightRequest="120" />
+                    </Border>
+                    <Border Grid.Column="1" BackgroundColor="#55000000" StrokeThickness="0" Padding="4">
+                        <WebView x:Name="Mail3d" HeightRequest="120" />
+                    </Border>
+                </Grid>
+                <Label Text="{Binding Contact.Phone, StringFormat='Телефон: {0}'}" TextColor="White" />
+                <Button Text="Позвонить" Command="{Binding CallCommand}" />
+                <Label Text="{Binding Contact.Email, StringFormat='Email: {0}'}" TextColor="White" />
+                <Button Text="Написать" Command="{Binding MailCommand}" />
+                <Label Text="{Binding Contact.Notes}" TextColor="#EEFFFFFF" />
+                <Button Text="Редактировать" Command="{Binding EditCommand}" />
+                <Button Text="Удалить" Command="{Binding DeleteCommand}" BackgroundColor="#8B3333" />
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>
