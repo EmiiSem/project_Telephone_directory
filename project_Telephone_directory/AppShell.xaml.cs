@@ -1,10 +1,11 @@
-﻿namespace project_Telephone_directory
+﻿namespace project_Telephone_directory;
+
+public partial class AppShell : Shell
 {
-    public partial class AppShell : Shell
+    public AppShell()
     {
-        public AppShell()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+        Routing.RegisterRoute(nameof(ContactDetailPage), typeof(ContactDetailPage));
+        Routing.RegisterRoute(nameof(ContactEditPage), typeof(ContactEditPage));
     }
 }
