@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:project_Telephone_directory.Controls"
+             x:Class="project_Telephone_directory.ContactsListPage"
+             Title="Контакты">
+    <Grid>
+        <controls:ShaderBackgroundView x:Name="ShaderBg" />
+        <Grid RowDefinitions="Auto,Auto,*" Padding="12" RowSpacing="10">
+            <Border Grid.Row="0" BackgroundColor="#55000000" StrokeThickness="0" Padding="6">
+                <WebView x:Name="SketchfabHeader" HeightRequest="140" />
+            </Border>
+            <Button Grid.Row="1" Text="Добавить контакт" Command="{Binding AddCommand}" />
+            <CollectionView Grid.Row="2" ItemsSource="{Binding Items}" SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="8" ColumnDefinitions="*,Auto">
+                            <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                <Label Text="{Binding Name}" FontSize="18" TextColor="White" />
+                                <Label Text="{Binding Phone}" FontSize="14" TextColor="#DDFFFFFF" />
+                            </VerticalStackLayout>
+                            <Button Grid.Column="1"
+                                    Text="Открыть"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OpenDetailCommand}"
+                                    CommandParameter="{Binding .}" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </Grid>
+</ContentPage>
