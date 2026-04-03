@@ -4,11 +4,14 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:project_Telephone_directory"
-    Title="project_Telephone_directory">
+    Title="Телефонный справочник"
+    FlyoutBehavior="Disabled">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <TabBar>
+        <ShellContent Title="Главная" Route="Home" ContentTemplate="{DataTemplate local:HomePage}" />
+        <ShellContent Title="Контакты" Route="Contacts" ContentTemplate="{DataTemplate local:ContactsListPage}" />
+        <ShellContent Title="Поиск" Route="Search" ContentTemplate="{DataTemplate local:SearchPage}" />
+        <ShellContent Title="Настройки" Route="Settings" ContentTemplate="{DataTemplate local:SettingsPage}" />
+    </TabBar>
 
 </Shell>
