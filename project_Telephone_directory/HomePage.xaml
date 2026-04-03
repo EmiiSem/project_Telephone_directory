@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:project_Telephone_directory.Controls"
+             x:Class="project_Telephone_directory.HomePage"
+             Title="Главная">
+    <Grid>
+        <controls:ShaderBackgroundView x:Name="ShaderBg" />
+        <ScrollView>
+            <VerticalStackLayout Padding="20" Spacing="14">
+                <Label Text="Телефонный справочник"
+                       FontSize="26"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       HorizontalOptions="Center" />
+                <Border BackgroundColor="#55000000"
+                        StrokeThickness="0"
+                        Padding="8">
+                    <WebView x:Name="SketchfabView" HeightRequest="200" />
+                </Border>
+                <Label Text="{Binding ContactCount, StringFormat='Контактов в базе: {0}'}"
+                       TextColor="White"
+                       FontSize="16"
+                       HorizontalOptions="Center" />
+                <Button Text="Все контакты" Command="{Binding OpenContactsCommand}" />
+                <Button Text="Поиск" Command="{Binding OpenSearchCommand}" />
+                <Button Text="Добавить контакт" Command="{Binding AddContactCommand}" />
+                <Button Text="Настройки" Command="{Binding OpenSettingsCommand}" />
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>
