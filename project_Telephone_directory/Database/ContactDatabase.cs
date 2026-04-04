@@ -15,8 +15,18 @@ public sealed class ContactDatabase
         var path = Path.Combine(FileSystem.AppDataDirectory, "contacts_secure.db3");
         _connection = new SQLiteAsyncConnection(path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.SharedCache);
         await _connection.CreateTableAsync<ContactEntity>();
+        await MigrateAvatarColumnAsync(_connection).ConfigureAwait(false);
         return _connection;
     }
 
     public async Task<SQLiteAsyncConnection> OpenAsync() => await GetConnectionAsync();
+
+    private static async Task MigrateAvatarColumnAsync(SQLiteAsyncConnection db)
+    {
+        var count = await db.ExecuteScalarAsync<int>(
+            "SELECT COUNT(*) FROM pragma_table_info('contacts') WHERE name='AvatarStorageName'").ConfigureAwait(false);
+        if (count > 0)
+            return;
+        await db.ExecuteAsync("ALTER TABLE contacts ADD COLUMN AvatarStorageName TEXT").ConfigureAwait(false);
+    }
 }
