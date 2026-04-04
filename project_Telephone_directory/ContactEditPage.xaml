@@ -9,6 +9,28 @@
                                          ValidationStrength="{Binding ValidationStrength}" />
         <ScrollView Padding="16">
             <VerticalStackLayout Spacing="12">
+                <Border WidthRequest="128"
+                        HeightRequest="128"
+                        HorizontalOptions="Center"
+                        StrokeThickness="0"
+                        BackgroundColor="#55336699">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="64" />
+                    </Border.StrokeShape>
+                    <Grid>
+                        <Image Aspect="AspectFill" Source="{Binding AvatarPreview}" />
+                        <Label FontSize="13"
+                               HorizontalOptions="Center"
+                               IsVisible="{Binding ShowAvatarPlaceholder}"
+                               Text="Нет фото"
+                               TextColor="#AAFFFFFF"
+                               VerticalOptions="Center" />
+                    </Grid>
+                </Border>
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="12">
+                    <Button Command="{Binding PickAvatarCommand}" Text="Выбрать фото" />
+                    <Button Command="{Binding ClearAvatarCommand}" Text="Убрать фото" />
+                </HorizontalStackLayout>
                 <Label Text="Имя *" TextColor="White" />
                 <Entry Text="{Binding Name}" TextColor="White" PlaceholderColor="#AAFFFFFF" />
                 <Label Text="Телефон" TextColor="White" />
