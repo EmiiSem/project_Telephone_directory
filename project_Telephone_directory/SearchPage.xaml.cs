@@ -22,10 +22,7 @@ public partial class SearchPage : ContentPage
         _wired = true;
         BindingContext = sp.GetRequiredService<SearchViewModel>();
         ShaderBg.Profile = ShaderProfile.SearchReactive;
-        SketchfabSearch.Source = new HtmlWebViewSource
-        {
-            Html = SketchfabConstants.BuildEmbedHtml(SketchfabConstants.Magnifier, 130)
-        };
+        SketchfabWebViewHelper.LoadModel(SketchfabSearch, SketchfabConstants.Magnifier, 130);
     }
 
     protected override void OnAppearing()
