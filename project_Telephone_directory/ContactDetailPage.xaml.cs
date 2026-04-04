@@ -22,13 +22,14 @@ public partial class ContactDetailPage : ContentPage
         _wired = true;
         BindingContext = sp.GetRequiredService<ContactDetailViewModel>();
         ShaderBg.Profile = ShaderProfile.ContactSoft;
-        Phone3d.Source = new HtmlWebViewSource
-        {
-            Html = SketchfabConstants.BuildEmbedHtml(SketchfabConstants.ContactPhone, 120)
-        };
-        Mail3d.Source = new HtmlWebViewSource
-        {
-            Html = SketchfabConstants.BuildEmbedHtml(SketchfabConstants.Envelope, 120)
-        };
+        SketchfabWebViewHelper.LoadModel(Phone3d, SketchfabConstants.ContactPhone, 120);
+        SketchfabWebViewHelper.LoadModel(Mail3d, SketchfabConstants.Envelope, 120);
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        if (BindingContext is ContactDetailViewModel vm)
+            vm.RefreshContact();
     }
 }
