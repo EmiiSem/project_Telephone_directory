@@ -8,9 +8,31 @@
         <controls:ShaderBackgroundView x:Name="ShaderBg" />
         <ScrollView Padding="16">
             <VerticalStackLayout Spacing="14">
+                <Border WidthRequest="120"
+                        HeightRequest="120"
+                        HorizontalOptions="Center"
+                        StrokeThickness="0"
+                        BackgroundColor="#55336699">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="60" />
+                    </Border.StrokeShape>
+                    <Grid>
+                        <Image Aspect="AspectFill"
+                               IsVisible="{Binding Contact.HasAvatar, FallbackValue=False, TargetNullValue=False}"
+                               Source="{Binding Contact.AvatarLocalPath}" />
+                        <Label FontAttributes="Bold"
+                               FontSize="36"
+                               HorizontalOptions="Center"
+                               IsVisible="{Binding Contact.HasAvatar, Converter={StaticResource InvertBool}, FallbackValue=True, TargetNullValue=True}"
+                               Text="{Binding Contact.Initials}"
+                               TextColor="White"
+                               VerticalOptions="Center" />
+                    </Grid>
+                </Border>
                 <Label Text="{Binding Contact.Name}"
                        FontSize="26"
                        FontAttributes="Bold"
+                       HorizontalTextAlignment="Center"
                        TextColor="White" />
                 <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
                     <Border Grid.Column="0" BackgroundColor="#55000000" StrokeThickness="0" Padding="4">
@@ -23,7 +45,8 @@
                 <Label Text="{Binding Contact.Phone, StringFormat='Телефон: {0}'}" TextColor="White" />
                 <Button Text="Позвонить" Command="{Binding CallCommand}" />
                 <Label Text="{Binding Contact.Email, StringFormat='Email: {0}'}" TextColor="White" />
-                <Button Text="Написать" Command="{Binding MailCommand}" />
+                <Button Text="Написать (email)" Command="{Binding MailCommand}" />
+                <Button Text="Написать SMS" Command="{Binding SmsCommand}" />
                 <Label Text="{Binding Contact.Notes}" TextColor="#EEFFFFFF" />
                 <Button Text="Редактировать" Command="{Binding EditCommand}" />
                 <Button Text="Удалить" Command="{Binding DeleteCommand}" BackgroundColor="#8B3333" />
