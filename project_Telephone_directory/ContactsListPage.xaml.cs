@@ -22,10 +22,7 @@ public partial class ContactsListPage : ContentPage
         _wired = true;
         BindingContext = sp.GetRequiredService<ContactsListViewModel>();
         ShaderBg.Profile = ShaderProfile.ContactSoft;
-        SketchfabHeader.Source = new HtmlWebViewSource
-        {
-            Html = SketchfabConstants.BuildEmbedHtml(SketchfabConstants.Magnifier, 130)
-        };
+        SketchfabWebViewHelper.LoadModel(SketchfabHeader, SketchfabConstants.Magnifier, 130);
     }
 
     protected override void OnAppearing()
