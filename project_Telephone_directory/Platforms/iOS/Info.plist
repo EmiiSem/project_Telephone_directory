@@ -28,5 +28,9 @@
 	</array>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/appicon.appiconset</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Приложение читает контакты для импорта в локальный справочник.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Выбор фото для аватара контакта.</string>
 </dict>
 </plist>
