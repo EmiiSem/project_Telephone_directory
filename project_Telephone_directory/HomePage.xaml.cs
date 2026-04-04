@@ -22,10 +22,7 @@ public partial class HomePage : ContentPage
         _wired = true;
         BindingContext = sp.GetRequiredService<HomeViewModel>();
         ShaderBg.Profile = ShaderProfile.MainGradient;
-        SketchfabView.Source = new HtmlWebViewSource
-        {
-            Html = SketchfabConstants.BuildEmbedHtml(SketchfabConstants.PhoneOrBook)
-        };
+        SketchfabWebViewHelper.LoadModel(SketchfabView, SketchfabConstants.PhoneOrBook, 200);
     }
 
     protected override void OnAppearing()
