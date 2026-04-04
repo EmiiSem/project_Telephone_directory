@@ -14,15 +14,51 @@
             <CollectionView Grid.Row="2" ItemsSource="{Binding Items}" SelectionMode="None">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Padding="8" ColumnDefinitions="*,Auto">
-                            <VerticalStackLayout Grid.Column="0" Spacing="2">
+                        <Grid Padding="8,10" ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                            <Border Grid.Column="0"
+                                    WidthRequest="52"
+                                    HeightRequest="52"
+                                    VerticalOptions="Center"
+                                    StrokeThickness="0"
+                                    BackgroundColor="#553388AA">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="26" />
+                                </Border.StrokeShape>
+                                <Grid>
+                                    <Image Aspect="AspectFill"
+                                           IsVisible="{Binding HasAvatar}"
+                                           Source="{Binding AvatarLocalPath}" />
+                                    <Label FontAttributes="Bold"
+                                           FontSize="16"
+                                           HorizontalOptions="Center"
+                                           IsVisible="{Binding HasAvatar, Converter={StaticResource InvertBool}}"
+                                           Text="{Binding Initials}"
+                                           TextColor="White"
+                                           VerticalOptions="Center" />
+                                </Grid>
+                            </Border>
+                            <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
                                 <Label Text="{Binding Name}" FontSize="18" TextColor="White" />
                                 <Label Text="{Binding Phone}" FontSize="14" TextColor="#DDFFFFFF" />
+                                <HorizontalStackLayout Margin="0,6,0,0" Spacing="8">
+                                    <Button Padding="10,6"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OpenDetailCommand}"
+                                            CommandParameter="{Binding .}"
+                                            FontSize="12"
+                                            Text="Открыть" />
+                                    <Button Padding="10,6"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditContactCommand}"
+                                            CommandParameter="{Binding .}"
+                                            FontSize="12"
+                                            Text="Изменить" />
+                                    <Button Padding="10,6"
+                                            BackgroundColor="#883333"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteContactCommand}"
+                                            CommandParameter="{Binding .}"
+                                            FontSize="12"
+                                            Text="Удалить" />
+                                </HorizontalStackLayout>
                             </VerticalStackLayout>
-                            <Button Grid.Column="1"
-                                    Text="Открыть"
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OpenDetailCommand}"
-                                    CommandParameter="{Binding .}" />
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
