@@ -22,9 +22,6 @@ public partial class SettingsPage : ContentPage
         _wired = true;
         BindingContext = sp.GetRequiredService<SettingsViewModel>();
         ShaderBg.Profile = ShaderProfile.ContactSoft;
-        Gear3d.Source = new HtmlWebViewSource
-        {
-            Html = SketchfabConstants.BuildEmbedHtml(SketchfabConstants.Gear, 170)
-        };
+        SketchfabWebViewHelper.LoadModel(Gear3d, SketchfabConstants.Gear, 170);
     }
 }
