@@ -38,18 +38,18 @@ public partial class HomeViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private static Task OpenContactsAsync() =>
-        Shell.Current.GoToAsync($"//{ShellRoutes.Contacts}");
+    private async Task OpenContactsAsync() =>
+        await MainThread.InvokeOnMainThreadAsync(() => Shell.Current.GoToAsync($"//{ShellRoutes.Contacts}")).ConfigureAwait(true);
 
     [RelayCommand]
-    private static Task OpenSearchAsync() =>
-        Shell.Current.GoToAsync($"//{ShellRoutes.Search}");
+    private async Task OpenSearchAsync() =>
+        await MainThread.InvokeOnMainThreadAsync(() => Shell.Current.GoToAsync($"//{ShellRoutes.Search}")).ConfigureAwait(true);
 
     [RelayCommand]
-    private static Task AddContactAsync() =>
-        Shell.Current.GoToAsync(nameof(ContactEditPage));
+    private async Task AddContactAsync() =>
+        await ShellContactNavigation.GoToNewContactAsync().ConfigureAwait(true);
 
     [RelayCommand]
-    private static Task OpenSettingsAsync() =>
-        Shell.Current.GoToAsync($"//{ShellRoutes.Settings}");
+    private async Task OpenSettingsAsync() =>
+        await MainThread.InvokeOnMainThreadAsync(() => Shell.Current.GoToAsync($"//{ShellRoutes.Settings}")).ConfigureAwait(true);
 }
