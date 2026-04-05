@@ -1,7 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Maui.ApplicationModel.Communication;
-using Microsoft.Maui.ApplicationModel.DataTransfer;
 using project_Telephone_directory.Models;
 using project_Telephone_directory.Services;
 
@@ -40,8 +38,6 @@ public partial class ContactDetailViewModel : ObservableObject, IQueryAttributab
 
     private async Task LoadAsync(int id)
     {
-        if (IsBusy)
-            return;
         try
         {
             IsBusy = true;
@@ -71,94 +67,14 @@ public partial class ContactDetailViewModel : ObservableObject, IQueryAttributab
     }
 
     [RelayCommand]
-    private Task EditAsync()
-    {
-        if (Contact == null)
-            return Task.CompletedTask;
-        return Shell.Current.GoToAsync($"{nameof(ContactEditPage)}?ContactId={Contact.Id}");
-    }
-
-    [RelayCommand]
-    private async Task CallAsync()
-    {
-        if (Contact == null || string.IsNullOrWhiteSpace(Contact.Phone))
-            return;
-        var uri = new Uri("tel:" + Uri.EscapeDataString(Contact.Phone));
-        await Launcher.Default.OpenAsync(uri).ConfigureAwait(true);
-    }
-
-    [RelayCommand]
-    private async Task MailAsync()
+    private async Task EditAsync()
     {
         if (Contact == null)
             return;
-        var address = Contact.Email?.Trim() ?? string.Empty;
-        if (string.IsNullOrEmpty(address))
-        {
-            await Shell.Current.DisplayAlertAsync(
-                "Нет email",
-                "Добавьте адрес электронной почты в режиме «Редактировать» или отправьте SMS, если указан телефон.",
-                "Понятно").ConfigureAwait(true);
-            return;
-        }
-
-        try
-        {
-            if (Email.Default.IsComposeSupported)
-            {
-                await Email.Default.ComposeAsync(new EmailMessage
-                {
-                    To = new List<string> { address },
-                    Subject = string.IsNullOrWhiteSpace(Contact.Name)
-                        ? string.Empty
-                        : Contact.Name
-                }).ConfigureAwait(true);
-            }
-            else
-            {
-                await Launcher.Default.OpenAsync(new Uri("mailto:" + address)).ConfigureAwait(true);
-            }
-        }
-        catch
-        {
-            await Clipboard.Default.SetTextAsync(address).ConfigureAwait(true);
-            await Shell.Current.DisplayAlertAsync(
-                "Почтовый клиент",
-                "Не удалось открыть приложение для писем. Адрес скопирован в буфер обмена — вставьте его в браузере или в Outlook.",
-                "OK").ConfigureAwait(true);
-        }
+        await ShellContactNavigation.GoToEditContactAsync(Contact.Id).ConfigureAwait(true);
     }
 
     [RelayCommand]
-    private async Task SmsAsync()
-    {
-        if (Contact == null)
-            return;
-        var phone = Contact.Phone?.Trim() ?? string.Empty;
-        if (string.IsNullOrEmpty(phone))
-        {
-            await Shell.Current.DisplayAlertAsync(
-                "Нет телефона",
-                "Добавьте номер в режиме «Редактировать», чтобы отправить SMS.",
-                "Понятно").ConfigureAwait(true);
-            return;
-        }
-
-        var digits = new string(phone.Where(static c => char.IsDigit(c) || c == '+').ToArray());
-        if (digits.Length == 0)
-            digits = phone;
-
-        try
-        {
-            await Launcher.Default.OpenAsync(new Uri("sms:" + digits)).ConfigureAwait(true);
-        }
-        catch
-        {
-            await Clipboard.Default.SetTextAsync(phone).ConfigureAwait(true);
-            await Shell.Current.DisplayAlertAsync(
-                "SMS",
-                "Не удалось открыть приложение для сообщений. Номер скопирован в буфер обмена.",
-                "OK").ConfigureAwait(true);
-        }
-    }
+    private async Task AddNewContactAsync() =>
+        await ShellContactNavigation.GoToNewContactAsync().ConfigureAwait(true);
 }
