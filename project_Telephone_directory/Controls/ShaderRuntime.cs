@@ -23,7 +23,7 @@ internal static class ShaderRuntime
             "}" +
             "half4 main(float2 fragCoord) {" +
             "  float2 uv = fragCoord / uResolution;" +
-            "  float t = uTime * 0.35;" +
+            "  float t = uTime * 0.28;" +
             "  float2 p = uv * 3.0 + float2(t * 0.2, -t * 0.15);" +
             "  float n = noise(p);" +
             "  float3 c1 = float3(0.12, 0.08, 0.35);" +
@@ -51,7 +51,7 @@ internal static class ShaderRuntime
             "  float2 uv = fragCoord / uResolution;" +
             "  float2 p = (uv - 0.5) * float2(uResolution.x / uResolution.y, 1.0);" +
             "  float len = length(p);" +
-            "  float wave = sin(len * 18.0 - uTime * 4.0 + uTyping * 12.0) * 0.5 + 0.5;" +
+            "  float wave = sin(len * 12.0 - uTime * 2.5 + uTyping * 8.0) * 0.5 + 0.5;" +
             "  float3 baseCol = float3(0.05, 0.09, 0.18);" +
             "  float3 accent = float3(0.25, 0.75, 0.95);" +
             "  float3 col = mix(baseCol, accent, wave * 0.35 + uTyping * 0.25);" +
@@ -94,13 +94,13 @@ internal static class ShaderRuntime
             "half4 main(float2 fragCoord) {" +
             "  float2 uv = fragCoord / uResolution;" +
             "  float t = uTime * 0.6;" +
-            "  float border = sin(uv.x * 40.0 + t) * 0.5 + 0.5;" +
+            "  float border = sin(uv.x * 26.0 + t) * 0.5 + 0.5;" +
             "  float3 ok = float3(0.15, 0.55, 0.35);" +
             "  float3 bad = float3(0.55, 0.18, 0.22);" +
             "  float3 baseCol = float3(0.08, 0.09, 0.14);" +
             "  float3 accent = mix(bad, ok, uValid);" +
             "  float3 col = mix(baseCol, accent, border * 0.12 + uValid * 0.08);" +
-            "  col += float3(0.05) * sin(t + uv.y * 20.0);" +
+            "  col += float3(0.04) * sin(t * 0.85 + uv.y * 14.0);" +
             "  return half4(col, 1.0);" +
             "}";
 
