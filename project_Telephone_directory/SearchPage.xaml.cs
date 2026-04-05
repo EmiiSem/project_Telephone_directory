@@ -22,13 +22,19 @@ public partial class SearchPage : ContentPage
         _wired = true;
         BindingContext = sp.GetRequiredService<SearchViewModel>();
         ShaderBg.Profile = ShaderProfile.SearchReactive;
-        SketchfabWebViewHelper.LoadModel(SketchfabSearch, SketchfabConstants.Magnifier, 130);
     }
 
     protected override void OnAppearing()
     {
         base.OnAppearing();
+        SketchfabWebViewHelper.LoadModel(SketchfabSearch, SketchfabConstants.Magnifier, 130);
         if (BindingContext is SearchViewModel vm)
             vm.LoadCommand.Execute(null);
+    }
+
+    protected override void OnDisappearing()
+    {
+        SketchfabWebViewHelper.Clear(SketchfabSearch);
+        base.OnDisappearing();
     }
 }
