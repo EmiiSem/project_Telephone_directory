@@ -30,7 +30,7 @@ public sealed class AppleContactsService : ISystemContactsService
 
             var request = new CNContactFetchRequest(keys);
             NSError? error;
-            store.EnumerateContacts(request, out error, (CNContact contact, out bool stop) =>
+            store.EnumerateContacts(request, out error, (CNContact contact, ref bool stop) =>
             {
                 stop = false;
                 var given = contact.GivenName ?? string.Empty;
