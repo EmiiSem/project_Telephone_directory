@@ -22,13 +22,19 @@ public partial class ContactsListPage : ContentPage
         _wired = true;
         BindingContext = sp.GetRequiredService<ContactsListViewModel>();
         ShaderBg.Profile = ShaderProfile.ContactSoft;
-        SketchfabWebViewHelper.LoadModel(SketchfabHeader, SketchfabConstants.Magnifier, 130);
     }
 
     protected override void OnAppearing()
     {
         base.OnAppearing();
+        SketchfabWebViewHelper.LoadModel(SketchfabHeader, SketchfabConstants.Magnifier, 130);
         if (BindingContext is ContactsListViewModel vm)
             vm.LoadCommand.Execute(null);
+    }
+
+    protected override void OnDisappearing()
+    {
+        SketchfabWebViewHelper.Clear(SketchfabHeader);
+        base.OnDisappearing();
     }
 }
