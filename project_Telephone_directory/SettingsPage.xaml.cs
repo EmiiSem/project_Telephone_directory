@@ -22,6 +22,17 @@ public partial class SettingsPage : ContentPage
         _wired = true;
         BindingContext = sp.GetRequiredService<SettingsViewModel>();
         ShaderBg.Profile = ShaderProfile.ContactSoft;
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
         SketchfabWebViewHelper.LoadModel(Gear3d, SketchfabConstants.Gear, 170);
+    }
+
+    protected override void OnDisappearing()
+    {
+        SketchfabWebViewHelper.Clear(Gear3d);
+        base.OnDisappearing();
     }
 }
