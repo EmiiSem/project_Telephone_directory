@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controls="clr-namespace:project_Telephone_directory.Controls"
              x:Class="project_Telephone_directory.ContactEditPage"
-             Title="Контакт">
+             Title="Контакт"
+             BackgroundColor="#14161E">
     <Grid>
-        <controls:ShaderBackgroundView x:Name="ShaderBg"
-                                         ValidationStrength="{Binding ValidationStrength}" />
+        <BoxView x:Name="ValidationBg" Color="#14161E" />
         <ScrollView Padding="16">
             <VerticalStackLayout Spacing="12">
                 <Border WidthRequest="128"
@@ -18,28 +17,32 @@
                         <RoundRectangle CornerRadius="64" />
                     </Border.StrokeShape>
                     <Grid>
-                        <Image Aspect="AspectFill" Source="{Binding AvatarPreview}" />
-                        <Label FontSize="13"
+                        <Image x:Name="AvatarImage" Aspect="AspectFill" />
+                        <Label x:Name="AvatarPlaceholder"
+                               FontSize="13"
                                HorizontalOptions="Center"
-                               IsVisible="{Binding ShowAvatarPlaceholder}"
                                Text="Нет фото"
                                TextColor="#AAFFFFFF"
                                VerticalOptions="Center" />
                     </Grid>
                 </Border>
                 <HorizontalStackLayout HorizontalOptions="Center" Spacing="12">
-                    <Button Command="{Binding PickAvatarCommand}" Text="Выбрать фото" />
-                    <Button Command="{Binding ClearAvatarCommand}" Text="Убрать фото" />
+                    <Button x:Name="BtnPickAvatar" Text="Выбрать фото" />
+                    <Button x:Name="BtnClearAvatar" Text="Убрать фото" />
                 </HorizontalStackLayout>
                 <Label Text="Имя *" TextColor="White" />
-                <Entry Text="{Binding Name}" TextColor="White" PlaceholderColor="#AAFFFFFF" />
+                <Entry x:Name="EntryName" TextColor="White" PlaceholderColor="#AAFFFFFF" />
                 <Label Text="Телефон" TextColor="White" />
-                <Entry Text="{Binding Phone}" Keyboard="Telephone" TextColor="White" PlaceholderColor="#AAFFFFFF" />
+                <Entry x:Name="EntryPhone" Keyboard="Telephone" TextColor="White" PlaceholderColor="#AAFFFFFF" />
                 <Label Text="Email" TextColor="White" />
-                <Entry Text="{Binding Email}" Keyboard="Email" TextColor="White" PlaceholderColor="#AAFFFFFF" />
+                <Entry x:Name="EntryEmail" Keyboard="Email" TextColor="White" PlaceholderColor="#AAFFFFFF" />
                 <Label Text="Заметки" TextColor="White" />
-                <Editor Text="{Binding Notes}" AutoSize="TextChanges" MinimumHeightRequest="80" TextColor="White" PlaceholderColor="#AAFFFFFF" />
-                <Button Text="Сохранить" Command="{Binding SaveCommand}" />
+                <Editor x:Name="EditorNotes"
+                        AutoSize="Disabled"
+                        HeightRequest="120"
+                        TextColor="White"
+                        PlaceholderColor="#AAFFFFFF" />
+                <Button x:Name="BtnSave" Text="Сохранить" />
             </VerticalStackLayout>
         </ScrollView>
     </Grid>
