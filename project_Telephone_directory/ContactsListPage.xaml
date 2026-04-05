@@ -4,7 +4,7 @@
              xmlns:controls="clr-namespace:project_Telephone_directory.Controls"
              x:Class="project_Telephone_directory.ContactsListPage"
              Title="Контакты">
-    <Grid>
+    <Grid x:Name="ContactsListHost">
         <controls:ShaderBackgroundView x:Name="ShaderBg" />
         <Grid RowDefinitions="Auto,Auto,*" Padding="12" RowSpacing="10">
             <Border Grid.Row="0" BackgroundColor="#55000000" StrokeThickness="0" Padding="6">
@@ -42,18 +42,18 @@
                                 <Label Text="{Binding Phone}" FontSize="14" TextColor="#DDFFFFFF" />
                                 <HorizontalStackLayout Margin="0,6,0,0" Spacing="8">
                                     <Button Padding="10,6"
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OpenDetailCommand}"
+                                            Command="{Binding Source={x:Reference ContactsListHost}, Path=BindingContext.OpenDetailCommand}"
                                             CommandParameter="{Binding .}"
                                             FontSize="12"
                                             Text="Открыть" />
                                     <Button Padding="10,6"
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditContactCommand}"
+                                            Command="{Binding Source={x:Reference ContactsListHost}, Path=BindingContext.EditContactCommand}"
                                             CommandParameter="{Binding .}"
                                             FontSize="12"
                                             Text="Изменить" />
                                     <Button Padding="10,6"
                                             BackgroundColor="#883333"
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteContactCommand}"
+                                            Command="{Binding Source={x:Reference ContactsListHost}, Path=BindingContext.DeleteContactCommand}"
                                             CommandParameter="{Binding .}"
                                             FontSize="12"
                                             Text="Удалить" />
