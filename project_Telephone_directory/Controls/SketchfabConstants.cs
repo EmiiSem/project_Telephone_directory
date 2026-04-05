@@ -14,10 +14,7 @@ public static class SketchfabConstants
     /// <summary>Настройки — шестерёнки.</summary>
     public const string Gear = "4c6cbdb5854d4b8ebd59772deff1f728";
 
-    /// <summary>Карточка контакта — телефон.</summary>
-    public const string ContactPhone = "3441f993365a4f18af05b319598ff5a5";
-
-    /// <summary>Карточка контакта — конверт.</summary>
+    /// <summary>Карточка контакта — конверт (3D в шапке).</summary>
     public const string Envelope = "73faa986225f4241809b922f92a48884";
 
     /// <summary>Прямая ссылка на страницу embed (предпочтительно для WebView).</summary>
