@@ -22,13 +22,19 @@ public partial class HomePage : ContentPage
         _wired = true;
         BindingContext = sp.GetRequiredService<HomeViewModel>();
         ShaderBg.Profile = ShaderProfile.MainGradient;
-        SketchfabWebViewHelper.LoadModel(SketchfabView, SketchfabConstants.PhoneOrBook, 200);
     }
 
     protected override void OnAppearing()
     {
         base.OnAppearing();
+        SketchfabWebViewHelper.LoadModel(SketchfabView, SketchfabConstants.PhoneOrBook, 200);
         if (BindingContext is HomeViewModel vm)
             vm.LoadCommand.Execute(null);
+    }
+
+    protected override void OnDisappearing()
+    {
+        SketchfabWebViewHelper.Clear(SketchfabView);
+        base.OnDisappearing();
     }
 }
