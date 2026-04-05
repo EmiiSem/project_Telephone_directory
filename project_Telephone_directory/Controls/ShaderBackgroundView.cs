@@ -24,7 +24,8 @@ public sealed class ShaderBackgroundView : SKCanvasView
         nameof(ValidationStrength),
         typeof(double),
         typeof(ShaderBackgroundView),
-        1d);
+        1d,
+        propertyChanged: OnShaderInputBindingChanged);
 
     private IDispatcherTimer? _animationTimer;
     private SKRuntimeEffect? _effect;
@@ -33,8 +34,9 @@ public sealed class ShaderBackgroundView : SKCanvasView
 
     public ShaderBackgroundView()
     {
-        EnableTouchEvents = true;
-        IgnorePixelScaling = false;
+        EnableTouchEvents = true; // для MainGradient; остальные профили отключают в ApplyProfile
+        // Меньше пикселей на высоком DPI — легче для GPU; координаты совпадают с layout.
+        IgnorePixelScaling = true;
         PaintSurface += OnPaintSurface;
         Touch += OnTouch;
 
@@ -81,12 +83,35 @@ public sealed class ShaderBackgroundView : SKCanvasView
             return;
 
         _animationTimer = dispatcher.CreateTimer();
-        _animationTimer.Interval = TimeSpan.FromMilliseconds(1000.0 / 60.0);
+        _animationTimer.Interval = GetAnimationInterval(Profile);
         _animationTimer.Tick += OnAnimationTick;
         _animationTimer.Start();
     }
 
-    private void OnAnimationTick(object? sender, EventArgs e) => InvalidateSurface();
+    private static void OnShaderInputBindingChanged(BindableObject bindable, object? oldValue, object? newValue)
+    {
+        if (bindable is ShaderBackgroundView view)
+            view.InvalidateSurface();
+    }
+
+    /// <summary>Форма редактирования: сильно реже кадры — иначе Skia конкурирует с вводом текста.</summary>
+    private static TimeSpan GetAnimationInterval(ShaderProfile profile) =>
+        profile == ShaderProfile.AddFormDynamic
+            ? TimeSpan.FromMilliseconds(400)
+            : TimeSpan.FromMilliseconds(1000.0 / 20.0);
+
+    private void SyncAnimationInterval()
+    {
+        if (_animationTimer != null)
+            _animationTimer.Interval = GetAnimationInterval(Profile);
+    }
+
+    private void OnAnimationTick(object? sender, EventArgs e)
+    {
+        if (!IsVisible)
+            return;
+        InvalidateSurface();
+    }
 
     private void StopAnimationTimer()
     {
@@ -106,6 +131,8 @@ public sealed class ShaderBackgroundView : SKCanvasView
 
     private void ApplyProfile(ShaderProfile profile)
     {
+        EnableTouchEvents = profile == ShaderProfile.MainGradient;
+
         _effect?.Dispose();
         _effect = profile switch
         {
@@ -116,6 +143,7 @@ public sealed class ShaderBackgroundView : SKCanvasView
             _ => ShaderRuntime.TryCreateMain(out _)
         };
 
+        SyncAnimationInterval();
         InvalidateSurface();
     }
 
@@ -149,7 +177,7 @@ public sealed class ShaderBackgroundView : SKCanvasView
             }
 
             var info = e.Info;
-            var uniforms = new SKRuntimeEffectUniforms(_effect);
+            using var uniforms = new SKRuntimeEffectUniforms(_effect);
             uniforms["uResolution"] = new[] { (float)info.Width, (float)info.Height };
             var elapsed = (float)(DateTime.UtcNow - _start).TotalSeconds;
             uniforms["uTime"] = elapsed;
@@ -167,7 +195,9 @@ public sealed class ShaderBackgroundView : SKCanvasView
                 uniforms["uValid"] = (float)Math.Clamp(ValidationStrength, 0, 1);
             }
 
-            using var shader = _effect.ToShader(uniforms, null);
+            // Нельзя передавать null во второй аргумент: ToShader(uniforms, children)
+            // внутри вызывает children.ToArray() и падает с NRE (Android/JavaProxyThrowable).
+            using var shader = _effect.ToShader(uniforms);
             using var paint = new SKPaint { Shader = shader };
             canvas.DrawRect(info.Rect, paint);
         }
