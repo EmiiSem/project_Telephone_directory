@@ -57,19 +57,23 @@ public partial class SearchViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private static Task OpenDetailAsync(ContactDisplayModel? model)
+    private async Task OpenDetailAsync(ContactDisplayModel? model)
     {
         if (model == null)
-            return Task.CompletedTask;
-        return Shell.Current.GoToAsync($"{nameof(ContactDetailPage)}?ContactId={model.Id}");
+            return;
+        await ShellContactNavigation.GoToContactDetailAsync(model.Id).ConfigureAwait(true);
     }
 
     [RelayCommand]
-    private static Task EditContactAsync(ContactDisplayModel? model)
+    private async Task AddContactAsync() =>
+        await ShellContactNavigation.GoToNewContactAsync().ConfigureAwait(true);
+
+    [RelayCommand]
+    private async Task EditContactAsync(ContactDisplayModel? model)
     {
         if (model == null)
-            return Task.CompletedTask;
-        return Shell.Current.GoToAsync($"{nameof(ContactEditPage)}?ContactId={model.Id}");
+            return;
+        await ShellContactNavigation.GoToEditContactAsync(model.Id).ConfigureAwait(true);
     }
 
     [RelayCommand]
