@@ -97,14 +97,10 @@ public sealed class ContactRepository : IContactRepository
 
     public async Task<ContactDisplayModel?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
     {
-        var all = await GetAllAsync(cancellationToken).ConfigureAwait(false);
-        foreach (var c in all)
-        {
-            if (c.Id == id)
-                return c;
-        }
-
-        return null;
+        await EnsureReadyAsync(cancellationToken).ConfigureAwait(false);
+        var db = await _database.OpenAsync().ConfigureAwait(false);
+        var row = await db.Table<ContactEntity>().Where(c => c.Id == id).FirstOrDefaultAsync().ConfigureAwait(false);
+        return row == null ? null : await MapAsync(row, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<int> InsertAsync(ContactDisplayModel model, CancellationToken cancellationToken = default)
