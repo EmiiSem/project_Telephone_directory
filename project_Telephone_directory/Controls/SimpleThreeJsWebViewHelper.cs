@@ -23,11 +23,12 @@ public static class SimpleThreeJsWebViewHelper
 
     public static void Clear(WebView webView) => webView.Source = null;
 
+    // Тор с меньшим числом сегментов — на Android WebView тяжёлый меш сильно снижает FPS.
     private static string GeometryJs(PrimitiveKind kind) =>
         kind switch
         {
             PrimitiveKind.Cube => "new THREE.BoxGeometry(1,1,1)",
-            PrimitiveKind.Torus => "new THREE.TorusGeometry(0.72,0.32,24,64)",
+            PrimitiveKind.Torus => "new THREE.TorusGeometry(0.72,0.32,12,28)",
             PrimitiveKind.Octahedron => "new THREE.OctahedronGeometry(0.92)",
             _ => "new THREE.BoxGeometry(1,1,1)"
         };
@@ -43,18 +44,23 @@ public static class SimpleThreeJsWebViewHelper
             "px;overflow:hidden;background:transparent;}canvas{width:100%;height:100%;display:block;outline:none;touch-action:none;}</style>" +
             "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js\"></script>" +
             "</head><body><script>" +
-            "(function(){var fixedH=" + hStr + ";var w=window.innerWidth||320;" +
+            "(function(){var fixedH=" + hStr + ";" +
+            "var ua=navigator.userAgent||'';" +
+            "var mobile=/Android|iPhone|iPad|iPod|Mobile|Silk|Kindle/i.test(ua);" +
+            "var w=window.innerWidth||320;" +
             "var h=Math.max(window.innerHeight||0,fixedH)||fixedH;" +
             "var scene=new THREE.Scene();" +
             "var camera=new THREE.PerspectiveCamera(50,w/h,0.1,100);camera.position.set(0,0,3.2);" +
-            "var renderer=new THREE.WebGLRenderer({alpha:true,antialias:true,powerPreference:'low-power'});" +
-            "renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));renderer.setClearColor(0,0);renderer.setSize(w,h);" +
+            "var pr=mobile?1:Math.min(window.devicePixelRatio||1,2);" +
+            "var renderer=new THREE.WebGLRenderer({alpha:true,antialias:!mobile,powerPreference:mobile?'default':'low-power'});" +
+            "renderer.setPixelRatio(pr);renderer.setClearColor(0,0);renderer.setSize(w,h);" +
             "document.body.appendChild(renderer.domElement);" +
             "var geom=" + geom + ";" +
-            "var mesh=new THREE.Mesh(geom,new THREE.MeshNormalMaterial({flatShading:false}));scene.add(mesh);" +
+            "var mesh=new THREE.Mesh(geom,new THREE.MeshNormalMaterial({flatShading:!!mobile}));scene.add(mesh);" +
             "window.addEventListener('resize',function(){" +
             "w=window.innerWidth||320;h=Math.max(window.innerHeight||0,fixedH)||fixedH;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h);});" +
-            "function tick(){requestAnimationFrame(tick);mesh.rotation.x+=0.007;mesh.rotation.y+=0.011;renderer.render(scene,camera);}" +
+            "var vis=true;document.addEventListener('visibilitychange',function(){vis=!document.hidden;});" +
+            "function tick(){requestAnimationFrame(tick);if(!vis)return;mesh.rotation.x+=0.007;mesh.rotation.y+=0.011;renderer.render(scene,camera);}" +
             "tick();})();" +
             "</script></body></html>";
     }
