@@ -27,14 +27,14 @@ public partial class HomePage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        SketchfabWebViewHelper.LoadModel(SketchfabView, SketchfabConstants.PhoneOrBook, 200);
+        SimpleThreeJsWebViewHelper.LoadPrimitive(SketchfabView, SimpleThreeJsWebViewHelper.PrimitiveKind.Cube, 200);
         if (BindingContext is HomeViewModel vm)
             vm.LoadCommand.Execute(null);
     }
 
     protected override void OnDisappearing()
     {
-        SketchfabWebViewHelper.Clear(SketchfabView);
+        SimpleThreeJsWebViewHelper.Clear(SketchfabView);
         base.OnDisappearing();
     }
 }
