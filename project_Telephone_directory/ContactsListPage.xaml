@@ -7,9 +7,7 @@
     <Grid x:Name="ContactsListHost">
         <controls:ShaderBackgroundView x:Name="ShaderBg" />
         <Grid RowDefinitions="Auto,Auto,*" Padding="12" RowSpacing="10">
-            <Border Grid.Row="0" BackgroundColor="#55000000" StrokeThickness="0" Padding="6">
-                <WebView x:Name="SketchfabHeader" HeightRequest="140" />
-            </Border>
+            <WebView Grid.Row="0" x:Name="SketchfabHeader" HeightRequest="140" BackgroundColor="Transparent" />
             <Button Grid.Row="1" Text="Добавить контакт" Command="{Binding AddCommand}" />
             <CollectionView Grid.Row="2" ItemsSource="{Binding Items}" SelectionMode="None">
                 <CollectionView.ItemTemplate>
@@ -66,3 +64,4 @@
         </Grid>
     </Grid>
 </ContentPage>
+
