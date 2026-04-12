@@ -8,9 +8,7 @@
         <controls:ShaderBackgroundView x:Name="ShaderBg"
                                          TypingIntensity="{Binding TypingIntensity}" />
         <Grid RowDefinitions="Auto,Auto,Auto,*" Padding="12" RowSpacing="10">
-            <Border Grid.Row="0" BackgroundColor="#55000000" StrokeThickness="0" Padding="6">
-                <WebView x:Name="SketchfabSearch" HeightRequest="140" />
-            </Border>
+            <WebView Grid.Row="0" x:Name="SketchfabSearch" HeightRequest="140" BackgroundColor="Transparent" />
             <Entry Grid.Row="1"
                    Placeholder="Введите имя, телефон или email"
                    Text="{Binding Query}"
@@ -72,3 +70,4 @@
         </Grid>
     </Grid>
 </ContentPage>
+
