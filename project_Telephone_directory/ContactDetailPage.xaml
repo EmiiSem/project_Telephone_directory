@@ -10,12 +10,7 @@
         <BoxView Color="#14161E" />
         <ScrollView Padding="16">
             <VerticalStackLayout Spacing="14">
-                <Border BackgroundColor="#55000000"
-                        StrokeThickness="0"
-                        Padding="6"
-                        HorizontalOptions="Fill">
-                    <WebView x:Name="SketchHeader" HeightRequest="160" />
-                </Border>
+                <WebView x:Name="SketchHeader" HeightRequest="160" BackgroundColor="Transparent" />
 
                 <Button Command="{Binding AddNewContactCommand}"
                         Text="+ Новый контакт"
@@ -78,3 +73,4 @@
         </ScrollView>
     </Grid>
 </ContentPage>
+
