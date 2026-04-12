@@ -27,14 +27,14 @@ public partial class SearchPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        SketchfabWebViewHelper.LoadModel(SketchfabSearch, SketchfabConstants.Magnifier, 130);
+        SimpleThreeJsWebViewHelper.LoadPrimitive(SketchfabSearch, SimpleThreeJsWebViewHelper.PrimitiveKind.Torus, 140);
         if (BindingContext is SearchViewModel vm)
             vm.LoadCommand.Execute(null);
     }
 
     protected override void OnDisappearing()
     {
-        SketchfabWebViewHelper.Clear(SketchfabSearch);
+        SimpleThreeJsWebViewHelper.Clear(SketchfabSearch);
         base.OnDisappearing();
     }
 }
