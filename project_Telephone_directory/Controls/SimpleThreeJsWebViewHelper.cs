@@ -1,7 +1,7 @@
 namespace project_Telephone_directory.Controls;
 
 /// <summary>
-/// Мини-viewer на Three.js (cdnjs): примитив + MeshNormalMaterial, прозрачный фон, плавное вращение.
+/// Мини-viewer на Three.js (cdnjs): примитив + MeshNormalMaterial, прозрачный фон, плавное вращение (на Android — быстрее).
 /// </summary>
 public static class SimpleThreeJsWebViewHelper
 {
@@ -46,7 +46,9 @@ public static class SimpleThreeJsWebViewHelper
             "</head><body><script>" +
             "(function(){var fixedH=" + hStr + ";" +
             "var ua=navigator.userAgent||'';" +
+            "var android=/Android/i.test(ua);" +
             "var mobile=/Android|iPhone|iPad|iPod|Mobile|Silk|Kindle/i.test(ua);" +
+            "var rx=android?0.018:0.007;var ry=android?0.028:0.011;" +
             "var w=window.innerWidth||320;" +
             "var h=Math.max(window.innerHeight||0,fixedH)||fixedH;" +
             "var scene=new THREE.Scene();" +
@@ -60,7 +62,7 @@ public static class SimpleThreeJsWebViewHelper
             "window.addEventListener('resize',function(){" +
             "w=window.innerWidth||320;h=Math.max(window.innerHeight||0,fixedH)||fixedH;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h);});" +
             "var vis=true;document.addEventListener('visibilitychange',function(){vis=!document.hidden;});" +
-            "function tick(){requestAnimationFrame(tick);if(!vis)return;mesh.rotation.x+=0.007;mesh.rotation.y+=0.011;renderer.render(scene,camera);}" +
+            "function tick(){requestAnimationFrame(tick);if(!vis)return;mesh.rotation.x+=rx;mesh.rotation.y+=ry;renderer.render(scene,camera);}" +
             "tick();})();" +
             "</script></body></html>";
     }
