@@ -8,9 +8,7 @@
         <controls:ShaderBackgroundView x:Name="ShaderBg" />
         <ScrollView Padding="16">
             <VerticalStackLayout Spacing="14">
-                <Border BackgroundColor="#55000000" StrokeThickness="0" Padding="8">
-                    <WebView x:Name="Gear3d" HeightRequest="180" />
-                </Border>
+                <WebView x:Name="Gear3d" HeightRequest="180" BackgroundColor="Transparent" />
                 <Label Text="{Binding StatusMessage}" TextColor="White" />
                 <Button Text="Запросить доступ к контактам" Command="{Binding RequestContactsPermissionCommand}" />
                 <Button Text="Импорт из телефонной книги" Command="{Binding ImportFromDeviceCommand}" />
@@ -20,3 +18,4 @@
         </ScrollView>
     </Grid>
 </ContentPage>
+
