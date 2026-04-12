@@ -27,14 +27,14 @@ public partial class ContactsListPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        SketchfabWebViewHelper.LoadModel(SketchfabHeader, SketchfabConstants.Magnifier, 130);
+        SimpleThreeJsWebViewHelper.LoadPrimitive(SketchfabHeader, SimpleThreeJsWebViewHelper.PrimitiveKind.Octahedron, 140);
         if (BindingContext is ContactsListViewModel vm)
             vm.LoadCommand.Execute(null);
     }
 
     protected override void OnDisappearing()
     {
-        SketchfabWebViewHelper.Clear(SketchfabHeader);
+        SimpleThreeJsWebViewHelper.Clear(SketchfabHeader);
         base.OnDisappearing();
     }
 }
