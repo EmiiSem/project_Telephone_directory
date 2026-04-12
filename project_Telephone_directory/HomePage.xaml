@@ -13,11 +13,7 @@
                        FontAttributes="Bold"
                        TextColor="White"
                        HorizontalOptions="Center" />
-                <Border BackgroundColor="#55000000"
-                        StrokeThickness="0"
-                        Padding="8">
-                    <WebView x:Name="SketchfabView" HeightRequest="200" />
-                </Border>
+                <WebView x:Name="SketchfabView" HeightRequest="200" BackgroundColor="Transparent" />
                 <Label Text="{Binding ContactCount, StringFormat='Контактов в базе: {0}'}"
                        TextColor="White"
                        FontSize="16"
