@@ -48,7 +48,7 @@ public static class SimpleThreeJsWebViewHelper
             "var ua=navigator.userAgent||'';" +
             "var android=/Android/i.test(ua);" +
             "var mobile=/Android|iPhone|iPad|iPod|Mobile|Silk|Kindle/i.test(ua);" +
-            "var rx=android?0.018:0.007;var ry=android?0.028:0.011;" +
+            "var rx=android?0.03:0.012;var ry=android?0.046:0.018;" +
             "var w=window.innerWidth||320;" +
             "var h=Math.max(window.innerHeight||0,fixedH)||fixedH;" +
             "var scene=new THREE.Scene();" +
