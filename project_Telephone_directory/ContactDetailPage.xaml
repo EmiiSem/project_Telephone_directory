@@ -2,12 +2,13 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:project_Telephone_directory.ViewModels"
+             xmlns:controls="clr-namespace:project_Telephone_directory.Controls"
              x:Class="project_Telephone_directory.ContactDetailPage"
              x:DataType="vm:ContactDetailViewModel"
              Title="Контакт"
              BackgroundColor="#14161E">
     <Grid>
-        <BoxView Color="#14161E" />
+        <controls:ShaderBackgroundView x:Name="ShaderBg" />
         <ScrollView Padding="16">
             <VerticalStackLayout Spacing="14">
                 <WebView x:Name="SketchHeader" HeightRequest="160" BackgroundColor="Transparent" />
