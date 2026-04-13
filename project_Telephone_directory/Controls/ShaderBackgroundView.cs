@@ -94,11 +94,14 @@ public sealed class ShaderBackgroundView : SKCanvasView
             view.InvalidateSurface();
     }
 
-    /// <summary>Форма редактирования: сильно реже кадры — иначе Skia конкурирует с вводом текста.</summary>
+    /// <summary>Интервалы перерисовки: выше FPS — быстрее смена uTime; форма редактирования остаётся реже, чтобы не мешать вводу.</summary>
     private static TimeSpan GetAnimationInterval(ShaderProfile profile) =>
-        profile == ShaderProfile.AddFormDynamic
-            ? TimeSpan.FromMilliseconds(400)
-            : TimeSpan.FromMilliseconds(1000.0 / 20.0);
+        profile switch
+        {
+            ShaderProfile.AddFormDynamic => TimeSpan.FromMilliseconds(240),
+            ShaderProfile.ContactDetailAmbient => TimeSpan.FromMilliseconds(1000.0 / 24.0),
+            _ => TimeSpan.FromMilliseconds(1000.0 / 30.0)
+        };
 
     private void SyncAnimationInterval()
     {
@@ -140,6 +143,8 @@ public sealed class ShaderBackgroundView : SKCanvasView
             ShaderProfile.SearchReactive => ShaderRuntime.TryCreateSearch(out _),
             ShaderProfile.ContactSoft => ShaderRuntime.TryCreateSoft(out _),
             ShaderProfile.AddFormDynamic => ShaderRuntime.TryCreateAddForm(out _),
+            ShaderProfile.SettingsAmbient => ShaderRuntime.TryCreateSettings(out _),
+            ShaderProfile.ContactDetailAmbient => ShaderRuntime.TryCreateDetail(out _),
             _ => ShaderRuntime.TryCreateMain(out _)
         };
 
