@@ -44,6 +44,7 @@ public partial class ContactDetailPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
+        ShaderBg.Profile = ShaderProfile.ContactDetailAmbient;
         ApplyContactRouteToViewModel();
         SketchfabWebViewHelper.LoadModel(SketchHeader, SketchfabConstants.Envelope, 160);
         if (BindingContext is ContactDetailViewModel vm && vm.Contact != null)
