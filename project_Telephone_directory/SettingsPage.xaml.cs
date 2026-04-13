@@ -21,7 +21,7 @@ public partial class SettingsPage : ContentPage
 
         _wired = true;
         BindingContext = sp.GetRequiredService<SettingsViewModel>();
-        ShaderBg.Profile = ShaderProfile.ContactSoft;
+        ShaderBg.Profile = ShaderProfile.SettingsAmbient;
     }
 
     protected override void OnAppearing()
