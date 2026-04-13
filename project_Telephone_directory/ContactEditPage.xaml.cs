@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using project_Telephone_directory.Controls;
 using project_Telephone_directory.ViewModels;
 
 namespace project_Telephone_directory;
@@ -15,6 +16,8 @@ public partial class ContactEditPage : ContentPage
     public ContactEditPage()
     {
         InitializeComponent();
+        ShaderBg.Profile = ShaderProfile.AddFormDynamic;
+        ShaderBg.ValidationStrength = 0;
 
         BtnPickAvatar.Clicked += async (_, _) =>
         {
@@ -126,7 +129,7 @@ public partial class ContactEditPage : ContentPage
 
     private void OnValidationChanged(bool isValid)
     {
-        ValidationBg.Color = isValid ? Color.FromArgb("#0E1A12") : Color.FromArgb("#1A0E0E");
+        ShaderBg.ValidationStrength = isValid ? 1f : 0f;
     }
 
     private void OnAvatarChanged()
